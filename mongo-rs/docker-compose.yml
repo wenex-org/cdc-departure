@@ -16,8 +16,6 @@ services:
       - MONGODB_REPLICA_SET_NAME=rs0
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
       - BITNAMI_DEBUG=true
-    volumes:
-      - './mongo/primary:/bitnami/mongodb'
     networks:
       - localnet
 

@@ -1,13 +1,6 @@
 # Mongo-RS
 
-Mongo replication set with four nodes, run and start with docker compose:
-
-```sh
-sudo mkdir -p -m 777 mongo/primary
-sudo chown -R 1001 mongo
-```
-
-> NOTE: As this is a non-root container, the mounted files and directories must have the proper permissions for the UID 1001.
+Mongo replication set with three nodes, run and start with docker compose:
 
 ```sh
 docker-compose up -d
