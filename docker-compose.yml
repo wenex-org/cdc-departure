@@ -62,6 +62,7 @@ services:
         echo "Installing Connector"
         confluent-hub install --no-prompt --verbose mongodb/kafka-connect-mongodb:1.11.0
         confluent-hub install --no-prompt --verbose debezium/debezium-connector-mysql:2.2.1
+        confluent-hub install --no-prompt --verbose debezium/debezium-connector-mongodb:2.2.1
         #
         echo "Launching Kafka Connect worker"
         /etc/confluent/docker/run &
