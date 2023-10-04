@@ -1,13 +1,14 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('fortest')
-export class FortestTable {
+export class Fortest {
   @PrimaryGeneratedColumn()
-  id?: string;
+  id: number;
 
   @Column()
-  name: string;
+  name?: string;
 
   @Column()
-  email: string;
+  email?: string;
 }
+export type FortestEntity = Fortest;

@@ -5,8 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HealthModule } from '@app/health';
 import { Module } from '@nestjs/common';
 
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
+import { FortestModule } from './modules/fortest';
 
 @Module({
   imports: [
@@ -22,8 +21,8 @@ import { AppController } from './app.controller';
       tracesSampleRate: 1.0,
       maxBreadcrumbs: 10,
     }),
+
+    ...[FortestModule],
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
