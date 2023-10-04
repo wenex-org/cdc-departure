@@ -1,17 +1,19 @@
-import { MONGO_CONFIG, NODE_ENV, SENTRY_DSN } from '@app/common/configs';
+import { MONGO_CONFIG, MYSQL_CONFIG, NODE_ENV, SENTRY_DSN } from '@app/common/configs';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { SentryModule } from '@ntegral/nestjs-sentry';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Fortest } from '@app/common/entities';
 import { HealthModule } from '@app/health';
 import { Module } from '@nestjs/common';
 
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
+import { FortestModule } from './modules/fortest';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     PrometheusModule.register(),
-    MongooseModule.forRoot(MONGO_CONFIG()),
     HealthModule.register(['disk', 'memory', 'mongo', 'kafka']),
     SentryModule.forRoot({
       debug: NODE_ENV().IS_DEVELOPMENT,
@@ -22,8 +24,16 @@ import { AppController } from './app.controller';
       tracesSampleRate: 1.0,
       maxBreadcrumbs: 10,
     }),
+
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      ...MYSQL_CONFIG(),
+      entities: [Fortest],
+      synchronize: !NODE_ENV().IS_PRODUCTION,
+    }),
+    MongooseModule.forRoot(MONGO_CONFIG()),
+
+    ...[FortestModule],
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
