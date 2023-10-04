@@ -10,7 +10,7 @@ Before each please be sure to have the prerequisites:
 
 To start and run the environment enter this command `docker-compose up -d` in your terminal while you located into this project, after that run the command `npm run db:seed` to generate `example` MySQL database and the `fortest` table with sample data, then go to the [Kafka Connect](#kafka-connect) section and register two connectors.
 
-Look at your MongoDB to see the existing data in MySQL.
+Look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start `sql-to-nosql` app with command `npm run start`.
 
 ### Kafka Connect
 
