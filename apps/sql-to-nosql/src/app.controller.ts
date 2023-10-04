@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
-import { SqlToNosqlService } from './sql-to-nosql.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, UseInterceptors } from '@nestjs/common';
+import { LoggerInterceptor } from '@app/common/interceptors';
+import { SentryInterceptor } from '@ntegral/nestjs-sentry';
+
+import { MysqlSourceDto } from './dto';
+import { AppService } from './app.service';
 
 @Controller()
-export class SqlToNosqlController {
-  constructor(private readonly sqlToNosqlService: SqlToNosqlService) {}
+@UseInterceptors(LoggerInterceptor, new SentryInterceptor())
+export class AppController {
+  constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.sqlToNosqlService.getHello();
+  @MessagePattern('mysql.example.fortest')
+  fortest(@Payload() { payload }: MysqlSourceDto) {
+    return this.appService.migrate(payload);
   }
 }

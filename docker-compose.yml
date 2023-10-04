@@ -50,7 +50,6 @@ services:
       - CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR=1
       - CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR=1
       - CONNECT_STATUS_STORAGE_REPLICATION_FACTOR=1
-      # - CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL=http://schema-registry:8081
       - CONNECT_PLUGIN_PATH=/usr/share/java,/usr/share/confluent-hub-components,/data/connect-jars
       - CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN="[%d] %p %X{connector.context}%m (%c:%L)%n"
     depends_on:
@@ -70,23 +69,6 @@ services:
         sleep infinity
     networks:
       - localnet
-
-  # schema-registry:
-  #   hostname: schema-registry
-  #   container_name: schema-registry
-  #   image: confluentinc/cp-schema-registry:7.4.2
-  #   ports:
-  #     - '8081:8081'
-  #   environment:
-  #     - SCHEMA_REGISTRY_HOST_NAME=schema-registry
-  #     - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:9093
-  #     - SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=zookeeper:2181
-  #     - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
-  #   depends_on:
-  #     - zookeeper
-  #     - kafka
-  #   networks:
-  #     - localnet
 
   mysql:
     container_name: mysql

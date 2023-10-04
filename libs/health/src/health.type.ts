@@ -1,6 +1,4 @@
-import { Transport } from '@nestjs/microservices';
-
-export type Check = 'disk' | 'memory' | 'mongo' | 'redis' | 'micro' | 'kafka';
+export type Check = 'disk' | 'memory' | 'mongo' | 'redis' | 'kafka';
 
 export type HealthCheckOptions = (
   | {
@@ -8,7 +6,6 @@ export type HealthCheckOptions = (
         | {
             key?: string;
             options?: any;
-            transport?: Transport; // micro
           }
         | undefined
         | null;

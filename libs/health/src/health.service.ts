@@ -29,24 +29,14 @@ export class HealthService {
   public check() {
     const indicators = [];
 
-    ['disk', 'memory', 'mongo', 'redis', 'micro', 'kafka'].forEach((check: Check) => {
+    ['disk', 'memory', 'mongo', 'redis', 'kafka'].forEach((check: Check) => {
       const exists = this.exists(check);
 
       if (exists) {
         if (typeof exists === 'string') {
           indicators.push(this[`${check}Status`]());
         } else {
-          if (['micro'].includes(check)) {
-            indicators.push(
-              this[`${check}Status`](
-                exists.key,
-                exists.transport as never,
-                exists.options,
-              ),
-            );
-          } else {
-            indicators.push(this[`${check}Status`](exists.key, exists.options as never));
-          }
+          indicators.push(this[`${check}Status`](exists.key, exists.options as never));
         }
       }
     });
@@ -91,14 +81,6 @@ export class HealthService {
         transport: Transport.KAFKA,
         options,
       });
-  }
-
-  protected microStatus(
-    key = 'micro',
-    transport?: Transport,
-    options?: MicroserviceHealthIndicatorOptions['options'],
-  ) {
-    return () => this.microIndicator.pingCheck(key, { transport, options });
   }
 
   // Private Methods

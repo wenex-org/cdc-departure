@@ -1,1 +1,1 @@
-export * from './fortest-table.seed';
+export * from './fortest.seed';

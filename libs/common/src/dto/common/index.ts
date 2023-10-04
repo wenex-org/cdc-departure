@@ -1,1 +1,1 @@
-export * from './kafka-connect.dto';
+export * from './mysql-source.dto';

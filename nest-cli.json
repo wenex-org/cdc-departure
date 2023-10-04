@@ -8,15 +8,6 @@
     "tsConfigPath": "apps/sql-to-nosql/tsconfig.app.json"
   },
   "projects": {
-    "nosql-to-sql": {
-      "type": "application",
-      "root": "apps/nosql-to-sql",
-      "entryFile": "main",
-      "sourceRoot": "apps/nosql-to-sql/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/nosql-to-sql/tsconfig.app.json"
-      }
-    },
     "sql-to-nosql": {
       "type": "application",
       "root": "apps/sql-to-nosql",
@@ -24,6 +15,15 @@
       "sourceRoot": "apps/sql-to-nosql/src",
       "compilerOptions": {
         "tsConfigPath": "apps/sql-to-nosql/tsconfig.app.json"
+      }
+    },
+    "nosql-to-sql": {
+      "type": "application",
+      "root": "apps/nosql-to-sql",
+      "entryFile": "main",
+      "sourceRoot": "apps/nosql-to-sql/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nosql-to-sql/tsconfig.app.json"
       }
     },
     "command": {

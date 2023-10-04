@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('fortest_table')
+@Entity('fortest')
 export class FortestTable {
   @PrimaryGeneratedColumn()
   id?: string;
