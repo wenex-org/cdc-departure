@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: bitnami/zookeeper:3.9
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - localnet
+
+  kafka:
+    container_name: kafka
+    image: bitnami/kafka:3.5
+    ports:
+      - '9092:9092'
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ENABLE_KRAFT=no
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9091,EXTERNAL://:9092,PLAINTEXT://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9091,EXTERNAL://localhost:9092,PLAINTEXT://kafka:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+    depends_on:
+      - zookeeper
+    networks:
+      - localnet
+
+  connect:
+    container_name: connect
+    image: confluentinc/cp-kafka-connect:7.4.2
+    ports:
+      - '8083:8083'
+    environment:
+      - KAFKA_JMX_HOSTNAME=localhost
+      - CONNECT_BOOTSTRAP_SERVERS=kafka:9091
+      - CONNECT_REST_PORT=8083
+      - CONNECT_GROUP_ID=kafka-connect
+      - CONNECT_AUTO_CREATE_TOPICS_ENABLE=true
+      - CONNECT_ZOOKEEPER_CONNECT=zookeeper:2181
+      - CONNECT_CONFIG_STORAGE_TOPIC=_connect-configs
+      - CONNECT_OFFSET_STORAGE_TOPIC=_connect-offsets
+      - CONNECT_STATUS_STORAGE_TOPIC=_connect-status
+      - CONNECT_REST_ADVERTISED_HOST_NAME=kafka-connect
+      - CONNECT_KEY_CONVERTER=org.apache.kafka.connect.storage.StringConverter
+      - CONNECT_VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_STATUS_STORAGE_REPLICATION_FACTOR=1
+      # - CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - CONNECT_PLUGIN_PATH=/usr/share/java,/usr/share/confluent-hub-components,/data/connect-jars
+      - CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN="[%d] %p %X{connector.context}%m (%c:%L)%n"
+    depends_on:
+      - zookeeper
+      - kafka
+    command:
+      - bash
+      - -c
+      - |
+        echo "Installing Connector"
+        confluent-hub install --no-prompt --verbose mongodb/kafka-connect-mongodb:1.11.0
+        confluent-hub install --no-prompt --verbose debezium/debezium-connector-mysql:2.2.1
+        #
+        echo "Launching Kafka Connect worker"
+        /etc/confluent/docker/run &
+        #
+        sleep infinity
+    networks:
+      - localnet
+
+  # schema-registry:
+  #   hostname: schema-registry
+  #   container_name: schema-registry
+  #   image: confluentinc/cp-schema-registry:7.4.2
+  #   ports:
+  #     - '8081:8081'
+  #   environment:
+  #     - SCHEMA_REGISTRY_HOST_NAME=schema-registry
+  #     - SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS=kafka:9093
+  #     - SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=zookeeper:2181
+  #     - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
+  #   depends_on:
+  #     - zookeeper
+  #     - kafka
+  #   networks:
+  #     - localnet
+
+  mysql:
+    container_name: mysql
+    image: bitnami/mysql:8.0
+    ports:
+      - '3306:3306'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - MYSQL_ROOT_PASSWORD=admin
+    networks:
+      - localnet
+
+  mongo:
+    container_name: mongo
+    image: bitnami/mongodb:7.0
+    ports:
+      - '27017:27017'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - MONGODB_ROOT_PASSWORD=admin
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    driver: bridge

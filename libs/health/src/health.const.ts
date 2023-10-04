@@ -1,0 +1,1 @@
+export const HEALTH_CHECK_OPTIONS = Symbol('HEALTH_CHECK_OPTIONS');

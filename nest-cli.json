@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/sql-to-nosql/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/sql-to-nosql/tsconfig.app.json"
+  },
+  "projects": {
+    "nosql-to-sql": {
+      "type": "application",
+      "root": "apps/nosql-to-sql",
+      "entryFile": "main",
+      "sourceRoot": "apps/nosql-to-sql/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nosql-to-sql/tsconfig.app.json"
+      }
+    },
+    "sql-to-nosql": {
+      "type": "application",
+      "root": "apps/sql-to-nosql",
+      "entryFile": "main",
+      "sourceRoot": "apps/sql-to-nosql/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sql-to-nosql/tsconfig.app.json"
+      }
+    },
+    "command": {
+      "type": "library",
+      "root": "libs/command",
+      "entryFile": "index",
+      "sourceRoot": "libs/command/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/command/tsconfig.lib.json"
+      }
+    },
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "health": {
+      "type": "library",
+      "root": "libs/health",
+      "entryFile": "index",
+      "sourceRoot": "libs/health/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/health/tsconfig.lib.json"
+      }
+    }
+  },
+  "monorepo": true,
+  "root": "apps/cdc-departure"
+}
