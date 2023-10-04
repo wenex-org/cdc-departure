@@ -1,9 +1,9 @@
-export function MONGO_CONFIG(db?: string): string {
+export function MONGO_CONFIG(): string {
   const host = process.env.MONGO_HOST;
 
   const username = process.env.MONGO_USER || null;
   const password = process.env.MONGO_PASS || null;
-  const database = db ?? (process.env.MONGO_DB || 'example');
+  const database = process.env.MONGO_DB || 'wenex';
 
   const query = process.env.MONGO_QUERY || 'authSource=admin';
 

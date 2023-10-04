@@ -11,7 +11,7 @@ import { AppController } from './app.controller';
 @Module({
   imports: [
     PrometheusModule.register(),
-    MongooseModule.forRoot(MONGO_CONFIG('wenex')),
+    MongooseModule.forRoot(MONGO_CONFIG()),
     HealthModule.register(['disk', 'memory', 'mongo', 'kafka']),
     SentryModule.forRoot({
       debug: NODE_ENV().IS_DEVELOPMENT,
