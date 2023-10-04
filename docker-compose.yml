@@ -82,6 +82,23 @@ services:
     networks:
       - localnet
 
+  mongodb-primary:
+    extends:
+      file: mongo-rs/docker-compose.yml
+      service: mongodb-primary
+    networks:
+      - localnet
+
+  mongodb-secondary:
+    extends:
+      file: mongo-rs/docker-compose.yml
+      service: mongodb-secondary
+
+  mongodb-arbiter:
+    extends:
+      file: mongo-rs/docker-compose.yml
+      service: mongodb-arbiter
+
 networks:
   localnet:
     driver: bridge
