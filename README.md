@@ -11,7 +11,7 @@ Before each please be sure to have the prerequisites:
 
 To start and run the environment enter this command `docker-compose up -d` (extends with [ReplicaSet MongoDB](https://github.com/wenex-org/cdc-departure/tree/main/mongo-rs)) in your terminal while you located into this project, after that run the command `npm run db:seed` to generate `example` MySQL database and the `fortest` table with sample data, then go to the [Kafka Connect](#kafka-connect) section and register two connectors.
 
-Look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start `sql-to-nosql` app with command `npm run start`.
+Look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start `sql-to-nosql` app with command `npm run start`. A i guess may you want to have bi-directional sink with mysql run the [MongoDB Source](#mongodb-source) and sink project with command `npm run start nosql-to-sql`.
 
 ### Kafka Connect
 
@@ -19,6 +19,7 @@ Kafka connect configurations with the source of mysql and mongodb sink.
 
 - [MySQL Source](#mysql-source)
 - [MongoDB Sink](#mongodb-sink)
+- [MongoDB Source](#mongodb-source)
 
 #### MySQL Source
 
@@ -77,7 +78,7 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
   "config": {
     "connector.class": "io.debezium.connector.mongodb.MongoDbConnector",
     "mongodb.connection.string": "mongodb://root:password123@mongodb-primary:27017,mongodb-secondary:27018,mongodb-arbiter:27019/?replicaSet=rs0&authSource=admin",
-    "topic.prefix": "fulfillment",
+    "topic.prefix": "mongo",
     "collection.include.list": "wenex.fortests"
   }
 }'

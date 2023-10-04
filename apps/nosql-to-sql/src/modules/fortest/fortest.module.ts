@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common';
 import { Fortest, FortestSchema } from './schema';
 import { FortestService } from './fortest.service';
 import { Fortest as FortestEntity } from './entity';
-import { FortestSchedule } from './fortest.schedule';
+import { FortestController } from './fortest.controller';
 import { FortestRepository } from './fortest.repository';
 
 @Module({
@@ -13,6 +13,7 @@ import { FortestRepository } from './fortest.repository';
     TypeOrmModule.forFeature([FortestEntity]),
     MongooseModule.forFeature([{ name: Fortest.name, schema: FortestSchema }]),
   ],
-  providers: [FortestService, FortestSchedule, FortestRepository],
+  controllers: [FortestController],
+  providers: [FortestService, FortestRepository],
 })
 export class FortestModule {}
