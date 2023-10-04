@@ -2,6 +2,8 @@
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/sql-to-nosql/src",
+  "monorepo": true,
+  "root": "apps/sql-to-nosql",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
@@ -53,7 +55,5 @@
         "tsConfigPath": "libs/health/tsconfig.lib.json"
       }
     }
-  },
-  "monorepo": true,
-  "root": "apps/cdc-departure"
+  }
 }
