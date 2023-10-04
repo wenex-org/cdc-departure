@@ -51,7 +51,7 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
     "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
     "topics": "mysql.example.fortest",
     "tasks.max": "1",
-    "connection.uri": "mongodb://root:admin@mongo:27017/?authSource=admin",
+    "connection.uri": "mongodb://root:password123@mongodb-primary:27017,mongodb-secondary:27018,mongodb-arbiter:27019/?replicaSet=rs0&authSource=admin",
     "key.converter.schemas.enable": "false",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "database": "example",

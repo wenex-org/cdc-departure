@@ -17,10 +17,24 @@ export class FortestSchedule {
     @InjectModel(Fortest.name) readonly model: Model<FortestDocument>,
   ) {}
 
-  @Timeout(5000)
-  handleTimeout() {
-    this.log
-      .get(toKebabCase(this.handleTimeout.name))
-      .debug('Called once after 5 seconds');
+  @Timeout(1000)
+  async handleTimeout() {
+    try {
+      const options = {
+        fullDocument: 'whenAvailable',
+        fullDocumentBeforeChange: 'whenAvailable',
+      };
+      const changeStream = this.model.watch([], options);
+
+      do {
+        const result = await changeStream.next();
+
+        console.log(result);
+      } while (await changeStream.hasNext());
+    } catch (error) {
+      this.log
+        .get(toKebabCase(this.handleTimeout.name))
+        .debug('Called once after 5 seconds');
+    }
   }
 }

@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+  mongodb-primary:
+    image: docker.io/bitnami/mongodb:7.0
+    container_name: mongodb-primary
+    hostname: mongodb-primary
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_NAME=rs0
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - BITNAMI_DEBUG=true
+    volumes:
+      - './mongo/primary:/bitnami/mongodb'
+    networks:
+      - localnet
+
+  mongodb-secondary:
+    image: docker.io/bitnami/mongodb:7.0
+    container_name: mongodb-secondary
+    hostname: mongodb-secondary
+    depends_on:
+      - mongodb-primary
+    expose:
+      - 27018
+    ports:
+      - 27018:27017
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_NAME=rs0
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    networks:
+      - localnet
+
+  mongodb-arbiter:
+    image: docker.io/bitnami/mongodb:7.0
+    container_name: mongodb-arbiter
+    hostname: mongodb-arbiter
+    depends_on:
+      - mongodb-primary
+    expose:
+      - 27019
+    ports:
+      - 27019:27017
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
+      - MONGODB_REPLICA_SET_MODE=arbiter
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+      - MONGODB_REPLICA_SET_NAME=rs0
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    driver: bridge
