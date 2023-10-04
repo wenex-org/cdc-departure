@@ -1,12 +1,13 @@
 import { toKebabCase } from 'naming-conventions-modeler';
+import { date, logger } from '@app/common/utils';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { Timeout } from '@nestjs/schedule';
-import { logger } from '@app/common/utils';
 import { Model } from 'mongoose';
 
 import { FortestService } from './fortest.service';
 import { Fortest, FortestDocument } from './schema';
+import { ChangeStreamDocument } from 'mongodb';
 
 @Injectable()
 export class FortestSchedule {
@@ -19,22 +20,40 @@ export class FortestSchedule {
 
   @Timeout(1000)
   async handleTimeout() {
-    try {
-      const options = {
-        fullDocument: 'whenAvailable',
-        fullDocumentBeforeChange: 'whenAvailable',
-      };
-      const changeStream = this.model.watch([], options);
+    this.log
+      .get(toKebabCase(this.handleTimeout.name))
+      .info(date(`timeout handler started forever.`));
 
-      do {
-        const result = await changeStream.next();
+    while (true) {
+      try {
+        const changeStream = this.model.watch<
+          FortestDocument,
+          ChangeStreamDocument<FortestDocument & { _id: string }>
+        >([], { fullDocument: 'updateLookup', hydrate: true });
 
-        console.log(result);
-      } while (await changeStream.hasNext());
-    } catch (error) {
-      this.log
-        .get(toKebabCase(this.handleTimeout.name))
-        .debug('Called once after 5 seconds');
+        do {
+          const change = await changeStream.next();
+
+          switch (change.operationType) {
+            case 'insert':
+              await this.fortestService.create(change.fullDocument);
+              break;
+            case 'delete':
+              break;
+          }
+
+          console.log(change);
+        } while (await changeStream.hasNext());
+
+        await changeStream.close();
+      } catch (error) {
+        this.log
+          .get(toKebabCase(this.handleTimeout.name))
+          .error(date(`exception occurred while watching.`));
+        this.log
+          .get(toKebabCase(this.handleTimeout.name))
+          .debug(date(`exception occurred while watching with error %j`), error);
+      }
     }
   }
 }
