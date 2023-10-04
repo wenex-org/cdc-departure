@@ -15,7 +15,7 @@ Look at your MongoDB to see the existing data in MySQL. If you want to manually 
 
 ### Kafka Connect
 
-Kafka connect configurations with the source of mysql and mongodb sink.
+Kafka connect configurations with the source of mysql and mongodb sink, you can consume and manage Kafka cluster with [conduktor](https://www.conduktor.io/).
 
 - [MySQL Source](#mysql-source)
 - [MongoDB Sink](#mongodb-sink)
