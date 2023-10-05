@@ -7,13 +7,13 @@ import { FortestInterface } from '../interfaces';
 export class Fortest implements FortestInterface {
   _id?: ObjectId;
 
-  @Prop()
+  @Prop({ required: false })
   ref?: number;
 
-  @Prop()
+  @Prop({ required: false })
   name?: string;
 
-  @Prop()
+  @Prop({ required: false })
   email?: string;
 }
 

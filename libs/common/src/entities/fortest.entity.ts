@@ -5,13 +5,13 @@ export class Fortest {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column()
+  @Column({ nullable: true })
   ref?: string;
 
-  @Column()
+  @Column({ nullable: true })
   name?: string;
 
-  @Column()
+  @Column({ nullable: true })
   email?: string;
 }
 export type FortestEntity = Fortest;
