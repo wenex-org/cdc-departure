@@ -1,1 +1,1 @@
-export { Fortest, FortestSchema } from '@app/common/schemas';
+export { Fortest, FortestSchema, FortestDocument } from '@app/common/schemas';

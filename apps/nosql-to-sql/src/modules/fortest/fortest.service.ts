@@ -1,5 +1,7 @@
+import { FortestInterface, SourcePayload } from '@app/common/interfaces';
 import { date, logger } from '@app/common/utils';
 import { Injectable } from '@nestjs/common';
+import { RefsService } from '@app/refs';
 
 import { FortestRepository } from './fortest.repository';
 
@@ -7,9 +9,36 @@ import { FortestRepository } from './fortest.repository';
 export class FortestService {
   private readonly log = logger(FortestService.name);
 
-  constructor(readonly fortestRepository: FortestRepository) {}
+  constructor(
+    private readonly refsService: RefsService,
+    readonly fortestRepository: FortestRepository,
+  ) {}
 
-  migrate(payload: any) {
-    this.log.get(this.migrate.name).debug(date(`payload received with data %j`), payload);
+  async migrate(payload: SourcePayload<FortestInterface>) {
+    if (!payload.before && payload.after) {
+      const { _id, ...data } = payload.after;
+
+      const result = await this.fortestRepository.create({ ...data });
+
+      return this.refsService.repository.create({ ref: result.id, id: _id.$oid });
+    }
+
+    if (payload.before && !payload.after) {
+      const ref = await this.refsService.repository.findOne({ id: payload.$oid });
+
+      await this.fortestRepository.deleteById(ref.ref);
+
+      return this.refsService.repository.deleteOne(ref);
+    }
+
+    if (payload.before && payload.after) {
+      const { _id, ref, ...data } = payload.after;
+
+      await this.fortestRepository.updateById(ref, { ...data });
+
+      return this.refsService.repository.updateOne({ ref }, { id: _id.$oid });
+    }
+
+    this.log.get(this.migrate.name).warn(date(`payload was empty.`));
   }
 }

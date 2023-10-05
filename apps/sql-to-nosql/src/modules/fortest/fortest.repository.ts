@@ -1,9 +1,10 @@
-import { Fortest, FortestDocument } from '@app/common/schemas';
 import { FortestInterface } from '@app/common/interfaces';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { DeleteResult } from 'mongodb';
 import { Model } from 'mongoose';
+
+import { Fortest, FortestDocument } from './schema';
 
 @Injectable()
 export class FortestRepository {

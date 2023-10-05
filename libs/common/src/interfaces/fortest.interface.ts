@@ -1,5 +1,9 @@
+import { ObjectId } from 'mongodb';
+
 export interface Fortest {
-  ref: number;
+  _id?: ObjectId;
+
+  ref?: number;
   name?: string;
   email?: string;
 }

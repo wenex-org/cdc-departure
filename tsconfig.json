@@ -23,7 +23,9 @@
       "@app/common": ["libs/common/src"],
       "@app/common/*": ["libs/common/src/*"],
       "@app/health": ["libs/health/src"],
-      "@app/health/*": ["libs/health/src/*"]
+      "@app/health/*": ["libs/health/src/*"],
+      "@app/refs": ["libs/refs/src"],
+      "@app/refs/*": ["libs/refs/src/*"]
     }
   }
 }

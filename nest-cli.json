@@ -54,6 +54,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/health/tsconfig.lib.json"
       }
+    },
+    "refs": {
+      "type": "library",
+      "root": "libs/refs",
+      "entryFile": "index",
+      "sourceRoot": "libs/refs/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/refs/tsconfig.lib.json"
+      }
     }
   }
 }

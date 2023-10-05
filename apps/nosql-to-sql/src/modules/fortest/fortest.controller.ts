@@ -4,6 +4,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { SentryInterceptor } from '@ntegral/nestjs-sentry';
 import { ValidationPipe } from '@app/common/pipes';
 
+import { MongoSourceDto } from './dto';
 import { FortestService } from './fortest.service';
 
 @Controller()
@@ -13,7 +14,7 @@ export class FortestController {
   constructor(private readonly fortestService: FortestService) {}
 
   @MessagePattern('mongo.wenex.fortests')
-  fortest(@Payload() { payload }: any) {
+  fortest(@Payload() { payload }: MongoSourceDto) {
     return this.fortestService.migrate(payload);
   }
 }
