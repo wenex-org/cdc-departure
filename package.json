@@ -38,6 +38,7 @@
     "@ntegral/nestjs-sentry": "^4.0.0",
     "@typegoose/typegoose": "^11.5.0",
     "@willsoto/nestjs-prometheus": "^5.5.1",
+    "abacl": "^7.2.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dotenv": "^16.3.1",
