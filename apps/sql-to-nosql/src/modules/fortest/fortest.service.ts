@@ -42,6 +42,6 @@ export class FortestService {
       return this.fortestRepository.updateById(id, { ...data, ref });
     }
 
-    this.log.get(this.migrate.name).warn(date(`payload was empty.`));
+    this.log.get(this.migrate.name).warn(date(`payload was %j`), payload);
   }
 }

@@ -15,7 +15,7 @@ export class FortestService {
   ) {}
 
   async migrate(payload: MongoSourcePayload<FortestInterface>) {
-    if (!payload.before && payload.after && payload.op !== 'r') {
+    if (!payload.before && payload.after && !payload.after.ref) {
       const { _id: ref, ...data } = payload.after;
 
       return this.fortestRepository.create({ ...data, ref: ref.$oid });
@@ -37,6 +37,6 @@ export class FortestService {
       return this.refsService.repository.updateOne({ ref }, { id: _id.$oid });
     }
 
-    this.log.get(this.migrate.name).warn(date(`payload was empty.`));
+    this.log.get(this.migrate.name).warn(date(`payload was %j`), payload);
   }
 }
