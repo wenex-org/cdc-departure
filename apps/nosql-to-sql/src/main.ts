@@ -4,7 +4,6 @@ require('log-node')();
 
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { KAFKA_CONFIG } from '@app/common/configs';
-import { deserializer } from '@app/common/utils';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
@@ -15,7 +14,6 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
     options: {
-      deserializer,
       subscribe: { fromBeginning: true },
       client: {
         brokers: [KAFKA_CONFIG()],
