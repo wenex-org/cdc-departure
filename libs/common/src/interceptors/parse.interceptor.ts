@@ -13,12 +13,12 @@ export class ParseInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<any>> {
-    const message = context.switchToRpc().getContext<KafkaContext>().getMessage();
+    const message = context.switchToRpc().getContext().getMessage();
 
     const key = toJSON(String(message.key)?.match(/[{[\s*]".*("\s*:\s*").*"[\s*}\]]/)[0]);
     this.log.get(this.intercept.name).info(date(`message received with id %j.`), key);
 
-    const payload = (message.value as any)?.payload ?? message.value;
+    const payload = message.value?.payload;
 
     if (payload) {
       Object.assign(payload, key);
