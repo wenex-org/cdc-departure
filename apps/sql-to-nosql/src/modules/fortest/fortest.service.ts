@@ -16,13 +16,13 @@ export class FortestService {
   ) {}
 
   migrate(payload: MysqlSourcePayload<FortestEntity>) {
-    if (!payload.before && payload.after) {
+    if (!payload.before && payload.after && !payload.after.ref) {
       const { id: ref, ...data } = payload.after;
 
       const _id = MongoId();
       this.refsService.repository.create({ ref, id: _id.toHexString() });
 
-      return this.fortestRepository.create({ _id, ref, ...data });
+      return this.fortestRepository.create({ _id, ...data, ref });
     }
 
     if (payload.before && !payload.after) {
@@ -39,7 +39,7 @@ export class FortestService {
 
       this.refsService.repository.updateOne({ ref: id }, { ref });
 
-      return this.fortestRepository.updateById(id, { ref, ...data });
+      return this.fortestRepository.updateById(id, { ...data, ref });
     }
 
     this.log.get(this.migrate.name).warn(date(`payload was empty.`));

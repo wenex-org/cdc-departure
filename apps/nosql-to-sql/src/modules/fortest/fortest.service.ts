@@ -15,12 +15,10 @@ export class FortestService {
   ) {}
 
   async migrate(payload: MongoSourcePayload<FortestInterface>) {
-    if (!payload.before && payload.after) {
-      const { _id, ...data } = payload.after;
+    if (!payload.before && payload.after && payload.op !== 'r') {
+      const { _id: ref, ...data } = payload.after;
 
-      const result = await this.fortestRepository.create({ ...data });
-
-      return this.refsService.repository.create({ ref: result.id, id: _id.$oid });
+      return this.fortestRepository.create({ ...data, ref: ref.$oid });
     }
 
     if (payload.before && !payload.after) {

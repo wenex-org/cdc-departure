@@ -6,6 +6,9 @@ export class Fortest {
   id?: number;
 
   @Column()
+  ref?: string;
+
+  @Column()
   name?: string;
 
   @Column()
