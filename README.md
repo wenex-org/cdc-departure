@@ -11,7 +11,11 @@ Before each please be sure to have the prerequisites:
 
 To start and run the environment enter this command `docker-compose up -d` (extends with [ReplicaSet MongoDB](https://github.com/wenex-org/cdc-departure/tree/main/mongo-rs)) in your terminal while you located into this project, after that run the command `npm run db:seed` to create `example` MySQL database and the `fortest` table with sample data, then go to the [Kafka Connect](#kafka-connect) section and register connectors.
 
-Look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start `sql-to-nosql` app with command `npm run start`. As i guess may you want to have bi-directional sink with mysql run the last source connector [MongoDB Source](#mongodb-source) and sink project with command `npm run start nosql-to-sql`.
+Look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start `sql-to-nosql` app with command `npm run start`. As i guess may you want to have bi-directional sink with MySQL, so, run the last source connector [MongoDB Source](#mongodb-source) and sink project with command `npm run start nosql-to-sql`.
+
+> Note: for safety, you need an attribute or property on both sides of databases we used the `ref` property, this property must be optional it will automatically filled by negotiation between databases.
+
+MongoDB database does not emit documents after deleting, this event disrupts the synchronization process, therefore, we need a `refs` collection to store both references.
 
 ### Kafka Connect
 
