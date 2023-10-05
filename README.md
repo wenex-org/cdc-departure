@@ -1,6 +1,6 @@
 # CDC Departure
 
-Emigrate to the Wenex ecosystem with [CDC](https://www.confluent.io/learn/change-data-capture/) and [Kafka Connect](https://docs.confluent.io/platform/current/connect/index.html) Connect from your old fashion SQL DBMS to the NoSQL solution of wenex with MongoDB, this is an example project to do it.
+Emigrate to the Wenex ecosystem with [CDC](https://www.confluent.io/learn/change-data-capture/) and [Kafka Connect](https://docs.confluent.io/platform/current/connect/index.html) Connect from your old-fashioned SQL DBMS to the NoSQL solution of Wenex with MongoDB, this is an example project to do it.
 
 ## Quick Start Guide
 
@@ -11,7 +11,7 @@ Before each please be sure to have the prerequisites:
 
 To start and run the environment enter this command `docker-compose up -d` (extends with [ReplicaSet MongoDB](https://github.com/wenex-org/cdc-departure/tree/main/mongo-rs)) in your terminal while you located into this project, after that run the command `npm run db:seed` to create `example` MySQL database and the `fortest` table with sample data, then go to the [Kafka Connect](#kafka-connect) section and register connectors.
 
-Look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start `sql-to-nosql` app with command `npm run start`. As i guess may you want to have bi-directional sink with MySQL, so, run the last source connector [MongoDB Source](#mongodb-source) and sink project with command `npm run start nosql-to-sql`.
+Please look at your MongoDB to see the existing data in MySQL. If you want to manually sink with MongoDB start the `sql-to-nosql` app with the command `npm run start`. I guess may you want to have a bi-directional sink with MySQL, so, run the last source connector [MongoDB Source](#mongodb-source) and sink the project with the command `npm run start nosql-to-sql`.
 
 > Note: for safety, you need an attribute or property on both sides of databases we used the `ref` property, this property must be optional it will automatically filled by negotiation between databases.
 
@@ -19,7 +19,7 @@ MongoDB database does not emit documents after deleting, this event disrupts the
 
 ### Kafka Connect
 
-Kafka connect configurations with the source of mysql and mongodb sink, you can consume and manage Kafka cluster with [conduktor](https://www.conduktor.io/).
+Kafka connects configurations with the source of MySQL and MongoDB sink, you can consume and manage Kafka cluster with [conduktor](https://www.conduktor.io/).
 
 - [MySQL Source](#mysql-source)
 - [MongoDB Sink](#mongodb-sink)
@@ -76,7 +76,7 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
 
 #### MongoDB Source
 
-Only, if you want to have bi-directional sink with your old system.
+Only, if you want to have a bi-directional sink with your old system.
 
 ```sh
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{
