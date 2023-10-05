@@ -23,7 +23,7 @@ export class FortestService {
       return this.refsService.repository.create({ id: ref.$oid, ref: result.id });
     }
 
-    if (!payload.before && !payload.after) {
+    if (!payload.before && !payload.after && payload.$oid) {
       const ref = await this.refsService.repository.findOne({ id: payload.$oid });
 
       await this.fortestRepository.deleteById(ref.ref);

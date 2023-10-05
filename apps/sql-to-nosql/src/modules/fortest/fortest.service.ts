@@ -15,31 +15,31 @@ export class FortestService {
     readonly fortestRepository: FortestRepository,
   ) {}
 
-  migrate(payload: MysqlSourcePayload<FortestEntity>) {
+  async migrate(payload: MysqlSourcePayload<FortestEntity>) {
     if (!payload.before && payload.after && !payload.after.ref) {
       const { id: ref, ...data } = payload.after;
 
       const _id = MongoId();
-      this.refsService.repository.create({ ref, id: _id.toHexString() });
+      await this.fortestRepository.create({ _id, ...data, ref });
 
-      return this.fortestRepository.create({ _id, ...data, ref });
+      return this.refsService.repository.create({ ref, id: _id.toHexString() });
     }
 
     if (payload.before && !payload.after) {
       const { id: ref } = payload.before;
 
-      this.refsService.repository.deleteOne({ ref });
+      await this.fortestRepository.deleteById(ref);
 
-      return this.fortestRepository.deleteById(ref);
+      return this.refsService.repository.deleteOne({ ref });
     }
 
     if (payload.before && payload.after) {
       const { id } = payload.before;
       const { id: ref, ...data } = payload.after;
 
-      this.refsService.repository.updateOne({ ref: id }, { ref });
+      await this.fortestRepository.updateById(id, { ...data, ref });
 
-      return this.fortestRepository.updateById(id, { ...data, ref });
+      return this.refsService.repository.updateOne({ ref: id }, { ref });
     }
 
     this.log.get(this.migrate.name).warn(date(`payload was %j`), payload);

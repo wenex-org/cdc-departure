@@ -20,11 +20,13 @@ export class ParseInterceptor implements NestInterceptor {
 
     const payload = (message.value as any)?.payload ?? message.value;
 
-    Object.assign(payload, key);
-    Object.assign(payload, {
-      after: toJSON(payload?.after),
-      before: toJSON(payload?.before),
-    });
+    if (payload) {
+      Object.assign(payload, key);
+      Object.assign(payload, {
+        after: toJSON(payload?.after),
+        before: toJSON(payload?.before),
+      });
+    }
 
     this.log.get(this.intercept.name).debug(date(`payload parsed into %j`), payload);
 
