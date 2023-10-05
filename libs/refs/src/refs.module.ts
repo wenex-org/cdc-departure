@@ -11,7 +11,7 @@ import { RefsRepository } from './refs.repository';
     MongooseModule.forRoot(MONGO_CONFIG()),
     MongooseModule.forFeature([{ name: Ref.name, schema: RefSchema }]),
   ],
-  providers: [RefsService],
-  exports: [RefsService, RefsRepository],
+  providers: [RefsService, RefsRepository],
+  exports: [RefsService],
 })
 export class RefsModule {}

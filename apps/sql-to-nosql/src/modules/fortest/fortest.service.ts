@@ -37,7 +37,7 @@ export class FortestService {
       const { id } = payload.before;
       const { id: ref, ...data } = payload.after;
 
-      this.refsService.repository.updateOne({ ref: id }, { ref, ...data });
+      this.refsService.repository.updateOne({ ref: id }, { ref });
 
       return this.fortestRepository.updateById(id, { ref, ...data });
     }
