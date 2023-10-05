@@ -1,7 +1,9 @@
 import { buildSchema, Prop } from '@typegoose/typegoose';
 import type { Document } from 'mongoose';
 
-export class Ref {
+import { RefInterface } from '../interfaces';
+
+export class Ref implements RefInterface {
   @Prop({ type: String, required: true, index: true })
   id: string;
 
