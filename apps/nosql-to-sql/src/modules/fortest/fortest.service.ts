@@ -1,4 +1,4 @@
-import { FortestInterface, SourcePayload } from '@app/common/interfaces';
+import { FortestInterface, MongoSourcePayload } from '@app/common/interfaces';
 import { date, logger } from '@app/common/utils';
 import { Injectable } from '@nestjs/common';
 import { RefsService } from '@app/refs';
@@ -14,7 +14,7 @@ export class FortestService {
     readonly fortestRepository: FortestRepository,
   ) {}
 
-  async migrate(payload: SourcePayload<FortestInterface>) {
+  async migrate(payload: MongoSourcePayload<FortestInterface>) {
     if (!payload.before && payload.after) {
       const { _id, ...data } = payload.after;
 

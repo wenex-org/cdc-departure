@@ -1,4 +1,4 @@
-import { SourcePayloadInterface } from '@app/common/interfaces';
+import { MysqlSourcePayloadInterface } from '@app/common/interfaces';
 import { IsNotEmpty, IsObject } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 
@@ -7,5 +7,5 @@ export class MysqlSourceDto<T = any> {
   @Expose()
   @IsObject()
   @IsNotEmpty()
-  payload: SourcePayloadInterface<T>;
+  payload: MysqlSourcePayloadInterface<T>;
 }

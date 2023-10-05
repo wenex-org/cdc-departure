@@ -1,5 +1,5 @@
+import { MysqlSourcePayload } from '@app/common/interfaces';
 import { MongoId, date, logger } from '@app/common/utils';
-import { SourcePayload } from '@app/common/interfaces';
 import { FortestEntity } from '@app/common/entities';
 import { Injectable } from '@nestjs/common';
 import { RefsService } from '@app/refs';
@@ -15,7 +15,7 @@ export class FortestService {
     readonly fortestRepository: FortestRepository,
   ) {}
 
-  migrate(payload: SourcePayload<FortestEntity>) {
+  migrate(payload: MysqlSourcePayload<FortestEntity>) {
     if (!payload.before && payload.after) {
       const { id: ref, ...data } = payload.after;
 
