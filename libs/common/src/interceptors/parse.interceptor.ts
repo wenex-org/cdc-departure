@@ -1,5 +1,4 @@
 import type { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
-import { KafkaContext } from '@nestjs/microservices';
 import { Injectable } from '@nestjs/common';
 import { type Observable } from 'rxjs';
 
