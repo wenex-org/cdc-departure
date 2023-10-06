@@ -1,7 +1,7 @@
 {
   "name": "cdc-departure",
   "version": "0.0.1",
-  "description": "Emigrate by Change Data Capture (CDC) with Kafka connectors from MySQL to MongoDB.",
+  "description": "CDC Departure",
   "author": "Vahid V. <vhid.vz@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
