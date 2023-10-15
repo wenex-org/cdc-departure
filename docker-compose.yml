@@ -87,8 +87,6 @@ services:
     extends:
       file: mongo-rs/docker-compose.yml
       service: mongodb-primary
-    networks:
-      - localnet
 
   mongodb-secondary:
     extends:
