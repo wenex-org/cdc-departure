@@ -23,8 +23,6 @@ services:
     image: docker.io/bitnami/mongodb:7.0
     container_name: mongodb-secondary
     hostname: mongodb-secondary
-    depends_on:
-      - mongodb-primary
     expose:
       - 27018
     ports:
@@ -44,8 +42,6 @@ services:
     image: docker.io/bitnami/mongodb:7.0
     container_name: mongodb-arbiter
     hostname: mongodb-arbiter
-    depends_on:
-      - mongodb-primary
     expose:
       - 27019
     ports:

@@ -92,11 +92,15 @@ services:
     extends:
       file: mongo-rs/docker-compose.yml
       service: mongodb-secondary
+    depends_on:
+      - mongodb-primary
 
   mongodb-arbiter:
     extends:
       file: mongo-rs/docker-compose.yml
       service: mongodb-arbiter
+    depends_on:
+      - mongodb-primary
 
 networks:
   localnet:
